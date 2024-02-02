@@ -78,16 +78,19 @@ class User(db.Model):
     _uid = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column(db.String(255), unique=False, nullable=False)
     _dob = db.Column(db.Date)
+    _interests = db.Column(db.JSON, nullable=True)
     
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
     posts = db.relationship("Post", cascade='all, delete', backref='users', lazy=True)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, name, uid, password="123qwerty", dob=date.today()):
+    def __init__(self, name, uid, interests, password="123qwerty", dob=date.today()):
         self._name = name    # variables with self prefix become part of the object, 
         self._uid = uid
+        self._interests = interests
         self.set_password(password)
         self._dob = dob
+
 
     # a name getter method, extracts name from object
     @property
@@ -99,6 +102,15 @@ class User(db.Model):
     def name(self, name):
         self._name = name
     
+    @property
+    def interests(self):
+        return self._interests
+
+    @interests.setter
+    def interests(self, interests):
+        self._interests = interests
+
+
     # a getter method, extracts email from object
     @property
     def uid(self):
@@ -203,10 +215,10 @@ def initUsers():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = User(name='Thomas Edison', uid='toby', password='123toby', dob=date(1847, 2, 11))
-        u2 = User(name='Nicholas Tesla', uid='niko', password='123niko', dob=date(1856, 7, 10))
-        u3 = User(name='Alexander Graham Bell', uid='lex')
-        u4 = User(name='Grace Hopper', uid='hop', password='123hop', dob=date(1906, 12, 9))
+        u1 = User(name='William Cheng', uid='will', password='password', dob=date(1847, 2, 11), interests = {"gaming": "lethal company"})
+        u2 = User(name='William Cheng 2', uid='will2', password='password2', dob=date(1856, 7, 10), interests = {"gaming": "mario kart"})
+        u3 = User(name='William Cheng 3', uid='will3', password='password3', dob=date(1906, 12, 9), interests = {"gaming": "sonic"})
+        u4 = User(name='William Cheng 4', uid='will4', password='password4', dob=date(1906, 12, 9), interests = {"gaming": "sonic"})
         users = [u1, u2, u3, u4]
 
         """Builds sample user/note(s) data"""
