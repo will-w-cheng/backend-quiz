@@ -183,7 +183,9 @@ class User(db.Model):
             "dob": self.dob,
             "age": self.age,
             "posts": [post.read() for post in self.posts]
-        }#
+        }
+    
+    # test comment
 
     # CRUD update: updates user name, password, phone
     # returns self
