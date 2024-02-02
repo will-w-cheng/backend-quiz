@@ -183,7 +183,7 @@ class User(db.Model):
             "dob": self.dob,
             "age": self.age,
             "posts": [post.read() for post in self.posts]
-        }
+        }#
 
     # CRUD update: updates user name, password, phone
     # returns self
